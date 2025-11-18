@@ -1,0 +1,5 @@
+{
+  "name": "Event Horizon Voxel",
+  "description": "A 3D interactive Minecraft-style voxel black hole simulation with a sentient AI interface.",
+  "requestFramePermissions": []
+}
