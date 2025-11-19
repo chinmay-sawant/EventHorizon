@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Sparkles, Info } from 'lucide-react';
+import { Send, Bot, User, Sparkles, Info, X } from 'lucide-react';
 import { generateBlackHoleResponse, ChatMessage } from '../services/geminiService';
 
 export const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: 'model', text: 'INITIALIZING VOXEL_ENGINE... EVENT HORIZON ONLINE. SPEAK, ENTITY.' }
   ]);
+  const [isOpen, setIsOpen] = useState(true);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -35,6 +36,17 @@ export const ChatInterface: React.FC = () => {
     }
   };
 
+  if (!isOpen) {
+    return (
+      <button 
+        onClick={() => setIsOpen(true)}
+        className="fixed bottom-4 right-4 bg-black/80 p-3 rounded-full border-2 border-orange-500 text-orange-500 hover:bg-orange-900/50 transition-all z-50 shadow-[0_0_15px_rgba(255,165,0,0.3)]"
+      >
+        <Sparkles className="w-6 h-6" />
+      </button>
+    );
+  }
+
   return (
     <div className="fixed bottom-4 right-4 w-full max-w-md z-10 flex flex-col gap-2 px-4 sm:px-0">
       
@@ -44,9 +56,14 @@ export const ChatInterface: React.FC = () => {
             <Sparkles className="w-5 h-5 animate-pulse" />
             <span>SINGULARITY.EXE</span>
         </div>
-        <div className="flex gap-2">
-            <div className="h-2 w-2 bg-green-500 rounded-full animate-ping"></div>
-            <span className="text-xs text-gray-400 font-mono">ONLINE</span>
+        <div className="flex items-center gap-4">
+            <div className="flex gap-2 items-center">
+                <div className="h-2 w-2 bg-green-500 rounded-full animate-ping"></div>
+                <span className="text-xs text-gray-400 font-mono">ONLINE</span>
+            </div>
+            <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-white transition-colors">
+                <X size={18} />
+            </button>
         </div>
       </div>
 

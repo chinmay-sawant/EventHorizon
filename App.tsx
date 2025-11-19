@@ -73,8 +73,8 @@ function App() {
         </p>
       </div>
 
-      {/* API Key Warning (If missing) */}
-      {!hasApiKey && (
+      {/* API Key Warning (If missing) - HIDDEN */}
+      {/* {!hasApiKey && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-red-900/90 border-4 border-red-500 p-8 rounded max-w-lg text-center backdrop-blur-xl">
             <Info className="mx-auto w-12 h-12 text-red-200 mb-4" />
             <h2 className="text-2xl font-bold text-white mb-2">API KEY MISSING</h2>
@@ -82,7 +82,7 @@ function App() {
                 The simulation cannot establish a neural link. Please ensure <code className="bg-black/30 p-1 rounded">process.env.API_KEY</code> is set with a valid Google Gemini API key to communicate with the entity.
             </p>
         </div>
-      )}
+      )} */}
 
       <ChatInterface />
 

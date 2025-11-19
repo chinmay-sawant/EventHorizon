@@ -51,23 +51,17 @@ export const VoxelBlackHole: React.FC = () => {
       const y = r * Math.sin(phi) * Math.sin(theta);
       const z = r * Math.cos(phi);
       
-      return { x, y, z, scale: 0.3 + Math.random() * 0.2 };
+      return { 
+        x, y, z, 
+        scale: 0.3 + Math.random() * 0.2,
+        rotX: Math.random() * Math.PI,
+        rotY: Math.random() * Math.PI,
+        phase: Math.random() * Math.PI * 2 // Random phase for individual pulsing
+      };
     });
   }, []);
 
-  useEffect(() => {
-    // Initial Setup for Horizon (Static-ish ball of voxels)
-    if (horizonMeshRef.current) {
-      horizonData.forEach((data, i) => {
-        tempObject.position.set(data.x, data.y, data.z);
-        tempObject.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
-        tempObject.scale.setScalar(data.scale);
-        tempObject.updateMatrix();
-        horizonMeshRef.current!.setMatrixAt(i, tempObject.matrix);
-      });
-      horizonMeshRef.current.instanceMatrix.needsUpdate = true;
-    }
-  }, [horizonData]);
+  // useEffect removed as animation is now handled in useFrame
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
@@ -110,6 +104,36 @@ export const VoxelBlackHole: React.FC = () => {
     if (horizonMeshRef.current) {
         horizonMeshRef.current.rotation.y -= 0.002;
         horizonMeshRef.current.rotation.z += 0.001;
+
+        horizonData.forEach((data, i) => {
+            // Pulsating/Shivering effect
+            // Low frequency pulse (breathing)
+            const pulse = Math.sin(time * 2 + data.phase) * 0.05;
+            
+            // High frequency shiver (instability)
+            const shiver = Math.sin(time * 15 + data.phase * 3) * 0.02;
+
+            const scaleFactor = 1 + pulse + shiver;
+
+            tempObject.position.set(
+                data.x * scaleFactor, 
+                data.y * scaleFactor, 
+                data.z * scaleFactor
+            );
+            
+            // Rotate cubes slightly to add to the chaos
+            tempObject.rotation.set(
+                data.rotX + time * 0.2, 
+                data.rotY + time * 0.1, 
+                0
+            );
+            
+            tempObject.scale.setScalar(data.scale * (1 + pulse * 0.5));
+            
+            tempObject.updateMatrix();
+            horizonMeshRef.current!.setMatrixAt(i, tempObject.matrix);
+        });
+        horizonMeshRef.current.instanceMatrix.needsUpdate = true;
     }
   });
 
