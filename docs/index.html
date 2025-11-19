@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Horizon Voxel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        // Polyfill process for browser environments to prevent ReferenceErrors
+        if (typeof process === 'undefined') {
+            window.process = { env: {} };
+        }
+        
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'pixel': ['"VT323"', 'monospace'],
+                        'sans': ['"Inter"', 'sans-serif'],
+                    },
+                    colors: {
+                        void: '#050505',
+                        magma: '#ff4d00',
+                        accretion: '#ffcc00',
+                    }
+                }
+            }
+        }
+    </script>
+  <script type="module" crossorigin src="/assets/index-BIiamzgH.js"></script>
+</head>
+  <body class="bg-void text-white overflow-hidden">
+    <div id="root"></div>
+  </body>
+</html>
